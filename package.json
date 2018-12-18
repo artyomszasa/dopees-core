@@ -2,8 +2,8 @@
   "name": "dopees-core",
   "version": "0.0.1",
   "description": "dopees-core",
-  "main": "lib/index.js",
-  "types": "lib/index.d.ts",
+  "main": "lib/core.js",
+  "types": "lib/core.d.ts",
   "scripts": {
     "test": "TS_NODE_PROJECT=tsconfig.test.json mocha -r ts-node/register tests/**/*.test.ts",
     "testWithCoverage": "nyc -r lcov -e .ts -x \"*.test.ts\" mocha -r ts-node/register tests/**/*.test.ts && nyc report"
