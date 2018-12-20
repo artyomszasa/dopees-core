@@ -1,7 +1,7 @@
 
 const logEvent = 'dope-log';
 
-interface LogMessageData {
+export interface LogMessageData {
   message: any,
   severity: 'log'|'warn'|'error'
 }
