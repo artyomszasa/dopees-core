@@ -6,7 +6,7 @@ export interface LogMessageData {
   severity: 'log'|'warn'|'error'
 }
 
-export function pushMsg(msg: any, severity: 'log'|'warn'|'error') {
+export function pushMsg(msg: any, severity?: 'log'|'warn'|'error') {
   const ev = document.createEvent('CustomEvent');
   ev.initCustomEvent(logEvent, false, false, {
       message: msg,
