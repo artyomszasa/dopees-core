@@ -214,6 +214,7 @@ export class DateTime implements Equatable<DateTime>, Comparable<DateTime> {
   get year() { return this.source.getFullYear(); }
   get month() { return this.source.getMonth() + 1; }
   get day() { return this.source.getDate(); }
+  get dayOfWeek() { return this.source.getDay(); }
   get hours() { return this.source.getHours(); }
   get minutes() { return this.source.getMinutes(); }
   get seconds() { return this.source.getSeconds(); }

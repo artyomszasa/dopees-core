@@ -49,5 +49,22 @@ describe('DateTime', () => {
     expect(res.day).equal(31); // !!!
     expect(res.hours).equal(12);
     expect(res.minutes).equal(0);
-  })
+  });
+  it('compareTo', () => {
+    const a = new DateTime({
+      year: 2018,
+      month: 1,
+      day: 31,
+      hours: 12
+    });
+    const b = new DateTime({
+      year: 2018,
+      month: 1,
+      day: 30,
+      hours: 12
+    });
+    expect(a.compareTo(b)).eq(1);
+    expect(b.compareTo(a)).eq(-1);
+    expect(a.compareTo(a)).eq(0);
+  });
 });

@@ -62,6 +62,7 @@ export declare class DateTime implements Equatable<DateTime>, Comparable<DateTim
     readonly year: number;
     readonly month: number;
     readonly day: number;
+    readonly dayOfWeek: number;
     readonly hours: number;
     readonly minutes: number;
     readonly seconds: number;
