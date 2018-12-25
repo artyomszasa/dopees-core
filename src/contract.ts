@@ -21,3 +21,19 @@ export function equalityComparer<T extends Equatable<T>>(): EqualityComparer<T> 
 export function comparer<T extends Comparable<T>>(): Comparer<T> {
   return (a: T, b: T) => a.compareTo(b);
 }
+
+export function greaterThan<T extends Comparable<T>>(a: T, b: T): boolean {
+  return a.compareTo(b) > 0;
+}
+
+export function lessThan<T extends Comparable<T>>(a: T, b: T): boolean {
+  return a.compareTo(b) < 0;
+}
+
+export function greaterThanOrEqualTo<T extends Comparable<T>>(a: T, b: T): boolean {
+  return a.compareTo(b) >= 0;
+}
+
+export function lessThanOrEqualTo<T extends Comparable<T>>(a: T, b: T): boolean {
+  return a.compareTo(b) <= 0;
+}

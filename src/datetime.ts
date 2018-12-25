@@ -75,7 +75,7 @@ const parseTimeStamp = (input: string) => {
   return milliseconds;
 }
 
-export class TimeSpan {
+export class TimeSpan implements Equatable<TimeSpan>, Comparable<TimeSpan> {
   static readonly millisecondsInSecond = 1000;
   static readonly millisecondsInMinute = 60000;
   static readonly millisecondsInHour = 3600000;
@@ -155,6 +155,15 @@ export class TimeSpan {
     const milliseconds = value instanceof TimeSpan ? value.totalMilliseconds : value;
     return this.subMilliseconds(milliseconds);
   }
+
+  equalsTo(other: TimeSpan) {
+    return this.value === other.value;
+  }
+
+  compareTo(other: TimeSpan) {
+    return this.value > other.value ? 1 : (this.value === other.value ? 0 : -1);
+  }
+
   toString() {
     if (this.value < 0) {
       return `-${this.abs()}`;

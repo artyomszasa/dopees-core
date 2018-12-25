@@ -1,5 +1,5 @@
 import { Equatable, Comparable } from "./contract";
-export declare class TimeSpan {
+export declare class TimeSpan implements Equatable<TimeSpan>, Comparable<TimeSpan> {
     static readonly millisecondsInSecond = 1000;
     static readonly millisecondsInMinute = 60000;
     static readonly millisecondsInHour = 3600000;
@@ -39,6 +39,8 @@ export declare class TimeSpan {
     subHours(hours: number): TimeSpan;
     subDays(days: number): TimeSpan;
     sub(value: TimeSpan | number): TimeSpan;
+    equalsTo(other: TimeSpan): boolean;
+    compareTo(other: TimeSpan): 1 | -1 | 0;
     toString(): string;
 }
 export interface DateTimeInit {

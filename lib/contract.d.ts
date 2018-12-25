@@ -12,3 +12,7 @@ export interface Comparer<T> {
 }
 export declare function equalityComparer<T extends Equatable<T>>(): EqualityComparer<T>;
 export declare function comparer<T extends Comparable<T>>(): Comparer<T>;
+export declare function greaterThan<T extends Comparable<T>>(a: T, b: T): boolean;
+export declare function lessThan<T extends Comparable<T>>(a: T, b: T): boolean;
+export declare function greaterThanOrEqualTo<T extends Comparable<T>>(a: T, b: T): boolean;
+export declare function lessThanOrEqualTo<T extends Comparable<T>>(a: T, b: T): boolean;
