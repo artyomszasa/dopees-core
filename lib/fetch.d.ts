@@ -4,7 +4,7 @@ export interface AnyProp {
 export interface FetchDecorator {
     readonly name: string;
     decorate?: (uri: string, init: RequestInit & AnyProp) => RequestInit & AnyProp;
-    handle?: (response: Response) => Promise<Response | void>;
+    handle?: (response: Response, init?: RequestInit & AnyProp) => Promise<Response | void>;
 }
 export interface DecoratedFetch {
     (uri: string, init: RequestInit & AnyProp): Promise<Response>;

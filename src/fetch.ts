@@ -6,7 +6,7 @@ export interface AnyProp {
 export interface FetchDecorator {
   readonly name: string;
   decorate?: (uri: string, init: RequestInit&AnyProp) => RequestInit&AnyProp;
-  handle?: (response: Response) => Promise<Response|void>;
+  handle?: (response: Response, init?: RequestInit&AnyProp) => Promise<Response|void>;
 }
 
 
@@ -33,7 +33,7 @@ const doFetch = async (decorators: FetchDecorator[], uri: string, init?: Request
   let response = await window.fetch(uri, opts);
   for (const decorator of decorators) {
     if (decorator.handle) {
-      const resp = await decorator.handle(response);
+      const resp = await decorator.handle(response, init);
       if (resp) {
         response = resp;
       }
