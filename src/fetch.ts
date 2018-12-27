@@ -5,7 +5,8 @@ export interface AnyProp {
 
 export interface FetchDecorator {
   readonly name: string;
-  decorate(uri: string, init: RequestInit&AnyProp): RequestInit&AnyProp;
+  decorate?: (uri: string, init: RequestInit&AnyProp) => RequestInit&AnyProp;
+  handle?: (response: Response) => Promise<Response|void>;
 }
 
 
@@ -19,15 +20,26 @@ export interface DecoratedFetch {
 
 const decorators: FetchDecorator[] = [];
 
-const doFetch = (decorators: FetchDecorator[], uri: string, init?: RequestInit&AnyProp) => {
+const doFetch = async (decorators: FetchDecorator[], uri: string, init?: RequestInit&AnyProp) => {
   let opts = init || {};
   for (const decorator of decorators) {
-    const newOpts = decorator.decorate(uri, opts);
-    if (newOpts) {
-      opts = newOpts;
+    if (decorator.decorate) {
+      const newOpts = decorator.decorate(uri, opts);
+      if (newOpts) {
+        opts = newOpts;
+      }
     }
   }
-  return window.fetch(uri, opts);
+  let response = await window.fetch(uri, opts);
+  for (const decorator of decorators) {
+    if (decorator.handle) {
+      const resp = await decorator.handle(response);
+      if (resp) {
+        response = resp;
+      }
+    }
+  }
+  return response;
 };
 
 interface Initial {
