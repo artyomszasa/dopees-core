@@ -13,8 +13,8 @@ export interface DecoratedFetch {
   (uri: string, init: RequestInit&AnyProp): Promise<Response>;
   readonly decorators: FetchDecorator[];
   native(uri: string, init: RequestInit): Promise<Response>;
-  include(decorators: (string|FetchDecorator)[]): (uri: string, init: RequestInit&AnyProp) => Promise<Response>;
-  exclude(decorators: (string|FetchDecorator)[]): (uri: string, init: RequestInit&AnyProp) => Promise<Response>;
+  include(...decorators: (string|FetchDecorator)[]): (uri: string, init: RequestInit&AnyProp) => Promise<Response>;
+  exclude(...decorators: (string|FetchDecorator)[]): (uri: string, init: RequestInit&AnyProp) => Promise<Response>;
 }
 
 const decorators: FetchDecorator[] = [];
@@ -40,7 +40,7 @@ export const decoratedFetch: DecoratedFetch = Object.assign(
     get() { return decorators }
   }), {
     native: window.fetch.bind(window),
-    include: (input: (string|FetchDecorator)[]) => {
+    include: (...input: (string|FetchDecorator)[]) => {
       const ds: FetchDecorator[] = [];
       for (const key of input) {
         if ('string' === typeof key) {
@@ -55,7 +55,7 @@ export const decoratedFetch: DecoratedFetch = Object.assign(
       }
       return (uri: string, init?: RequestInit&AnyProp) => doFetch(ds, uri, init);
     },
-    exclude: (input: (string|FetchDecorator)[]) => {
+    exclude: (...input: (string|FetchDecorator)[]) => {
       const ds: FetchDecorator[] = decorators.slice(0);
       for (const key of input) {
         if ('string' === typeof key) {

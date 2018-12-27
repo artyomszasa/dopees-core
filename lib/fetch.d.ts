@@ -9,8 +9,8 @@ export interface DecoratedFetch {
     (uri: string, init: RequestInit & AnyProp): Promise<Response>;
     readonly decorators: FetchDecorator[];
     native(uri: string, init: RequestInit): Promise<Response>;
-    include(decorators: (string | FetchDecorator)[]): (uri: string, init: RequestInit & AnyProp) => Promise<Response>;
-    exclude(decorators: (string | FetchDecorator)[]): (uri: string, init: RequestInit & AnyProp) => Promise<Response>;
+    include(...decorators: (string | FetchDecorator)[]): (uri: string, init: RequestInit & AnyProp) => Promise<Response>;
+    exclude(...decorators: (string | FetchDecorator)[]): (uri: string, init: RequestInit & AnyProp) => Promise<Response>;
 }
 export declare const decoratedFetch: DecoratedFetch;
 export declare class HttpError extends Error {
