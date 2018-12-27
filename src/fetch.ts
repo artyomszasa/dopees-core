@@ -74,21 +74,22 @@ export const decoratedFetch: DecoratedFetch = Object.assign(
   }
 );
 
-export class HttpError extends Error {
-  response: Response;
-  constructor(response: Response, message: string) {
-    super(message);
-    Object.setPrototypeOf(this, HttpError.prototype);
-    if ('function' === typeof (<any>Error).captureStackTrace) {
-      (<any>Error).captureStackTrace(this, this.constructor);
-    }
-    this.response = response;
-  }
-}
-
 const defaultErrors: { [key: number]: string|undefined } = {
   400: 'Bad request',
   500: 'Server error'
+}
+
+export class HttpError extends Error {
+  response: Response;
+  constructor(response: Response, message?: string) {
+    super(message ? message : defaultErrors[response.status] || `Unexpected error while fetching ${response.url}`);
+    const that = this; // iOS workaround...
+    Object.setPrototypeOf(that, HttpError.prototype);
+    if ('function' === typeof (<any>Error).captureStackTrace) {
+      (<any>Error).captureStackTrace(that, that.constructor);
+    }
+    this.response = response;
+  }
 }
 
 export async function httpGet(uri: string) {
@@ -100,7 +101,7 @@ export async function httpGet(uri: string) {
   if (message) {
     throw new HttpError(response, message);
   }
-  throw new HttpError(response, defaultErrors[response.status] || `Unexpected error while fetching ${uri}`);
+  throw new HttpError(response);
 }
 
 export async function httpGetJson<T>(uri: string) {

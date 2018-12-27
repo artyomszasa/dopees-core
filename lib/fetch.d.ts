@@ -15,7 +15,7 @@ export interface DecoratedFetch {
 export declare const decoratedFetch: DecoratedFetch;
 export declare class HttpError extends Error {
     response: Response;
-    constructor(response: Response, message: string);
+    constructor(response: Response, message?: string);
 }
 export declare function httpGet(uri: string): Promise<Response>;
 export declare function httpGetJson<T>(uri: string): Promise<T>;
