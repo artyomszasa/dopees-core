@@ -1,12 +1,13 @@
 
-export interface FetchDecorator {
-  readonly name: string;
-  decorate<T extends RequestInit>(uri: string, init: T): T|void;
-}
-
 export interface AnyProp {
   [key: string]: any
 }
+
+export interface FetchDecorator {
+  readonly name: string;
+  decorate(uri: string, init: RequestInit&AnyProp): RequestInit&AnyProp;
+}
+
 
 export interface DecoratedFetch {
   (uri: string, init: RequestInit&AnyProp): Promise<Response>;
