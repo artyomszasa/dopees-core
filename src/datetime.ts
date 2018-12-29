@@ -387,4 +387,9 @@ export class DateTime implements Equatable<DateTime>, Comparable<DateTime> {
     }
     return this.add(-1 * value);
   }
+  toDate() {
+    const result = new Date();
+    result.setTime(this.source.getTime());
+    return result;
+  }
 }

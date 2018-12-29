@@ -104,4 +104,5 @@ export declare class DateTime implements Equatable<DateTime>, Comparable<DateTim
     substract(other: DateTime): TimeSpan;
     substract(timespan: TimeSpan): DateTime;
     substract(milliseconds: number): DateTime;
+    toDate(): Date;
 }
