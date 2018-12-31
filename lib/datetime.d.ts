@@ -1,4 +1,24 @@
 import { Equatable, Comparable } from "./contract";
+export interface DateTimeFormat {
+    abbreviatedMonthNames: string[];
+    dayNames: string[];
+    monthNames: string[];
+    AMDesignator: string;
+    firstDayOfWeek: number;
+    fullDateTimePattern: string;
+    longDatePattern: string;
+    longTimePattern: string;
+    shortDatePattern: string;
+    shortDayNames: string[];
+    shortTimePattern: string;
+    timeSeparator: string;
+}
+export declare namespace Formats {
+    const hu: DateTimeFormat;
+    const enGB: DateTimeFormat;
+    const enUS: DateTimeFormat;
+    const ru: DateTimeFormat;
+}
 export declare class TimeSpan implements Equatable<TimeSpan>, Comparable<TimeSpan> {
     static readonly millisecondsInSecond = 1000;
     static readonly millisecondsInMinute = 60000;
@@ -53,6 +73,8 @@ export interface DateTimeInit {
     milliseconds?: number;
 }
 export declare class DateTime implements Equatable<DateTime>, Comparable<DateTime> {
+    static defaultFormatProvider: DateTimeFormat;
+    static defaultFormat: string;
     /**
      * Returns amount of days in the specified month.
      * @param month Month.
@@ -105,4 +127,9 @@ export declare class DateTime implements Equatable<DateTime>, Comparable<DateTim
     substract(timespan: TimeSpan): DateTime;
     substract(milliseconds: number): DateTime;
     toDate(): Date;
+    private format;
+    toString(): string;
+    toString(format: string): string;
+    toString(provider: DateTimeFormat): string;
+    toString(format: string, provider: DateTimeFormat): string;
 }

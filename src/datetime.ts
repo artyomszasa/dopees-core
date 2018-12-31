@@ -1,5 +1,126 @@
 import { Equatable, Comparable } from "./contract";
 
+export interface DateTimeFormat {
+  abbreviatedMonthNames: string[];
+  dayNames: string[];
+  monthNames: string[];
+  AMDesignator: string;
+  firstDayOfWeek: number;
+  fullDateTimePattern: string;
+  longDatePattern: string;
+  longTimePattern: string;
+  shortDatePattern: string;
+  shortDayNames: string[];
+  shortTimePattern: string;
+  timeSeparator: string
+}
+
+export namespace Formats {
+  export const hu = <DateTimeFormat>{
+    abbreviatedMonthNames: ['Jan', 'Feb', 'Már', 'Ápr', 'Máj', 'Jún', 'Júl', 'Aug', 'Szept', 'Okt', 'Nov', 'Dec'],
+    dayNames: [ 'Vasárnap', 'Hétfő', 'Kedd', 'Szerda', 'Csütörtök', 'Péntek', 'Szombat'],
+    monthNames: [
+      'Január',
+      'Február',
+      'Március',
+      'Május',
+      'Június',
+      'Július',
+      'Augusztus',
+      'Szeptember',
+      'Október',
+      'November',
+      'December'],
+    AMDesignator: '',
+    firstDayOfWeek: 1,
+    fullDateTimePattern: 'yyyy. mmmm dd. HH:MM:ss',
+    longDatePattern: 'yyyy. mmmm dd.',
+    longTimePattern: 'HH:MM:ss',
+    shortDatePattern: 'yyyy. m. d.',
+    shortDayNames: ['V', 'H', 'K', 'Sz', 'Cs', 'P', 'Sz'],
+    shortTimePattern: 'HH:MM',
+    timeSeparator: ':'
+  };
+
+  export const enGB = <DateTimeFormat>{
+    abbreviatedMonthNames: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sept', 'Okt', 'Nov', 'Dec'],
+    dayNames: ['Sunday', 'Monday', 'Thuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+    monthNames: [
+      'January',
+      'February',
+      'March',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'Oktober',
+      'November',
+      'December'],
+    AMDesignator: 'am',
+    firstDayOfWeek: 1,
+    fullDateTimePattern: 'dd mmmm yyyy HH:MM:ss',
+    longDatePattern: 'dd mmmm yyyy',
+    longTimePattern: 'HH:MM:ss',
+    shortDatePattern: 'dd/mm/yyyy',
+    shortDayNames: ['S', 'M', 'T', 'W', 'T', 'F', 'S'],
+    shortTimePattern: 'HH:MM',
+    timeSeparator: ':'
+  };
+
+  export const enUS = <DateTimeFormat>{
+    abbreviatedMonthNames: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sept', 'Okt', 'Nov', 'Dec'],
+    dayNames: ['Sunday', 'Monday', 'Thuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+    monthNames: [
+      'January',
+      'February',
+      'March',
+      'May',
+      'June',
+      'July',
+      'August',
+      'September',
+      'Oktober',
+      'November',
+      'December'],
+    AMDesignator: 'AM',
+    firstDayOfWeek: 0,
+    fullDateTimePattern: 'dddd, mmmm d, yyyy h:MM:ss TT',
+    longDatePattern: 'dddd, mmmm d, yyyy',
+    longTimePattern: 'h:MM:ss tt',
+    shortDatePattern: 'm/d/yyyy',
+    shortDayNames: ['S', 'M', 'T', 'W', 'T', 'F', 'S'],
+    shortTimePattern: 'h:MM tt',
+    timeSeparator: ':'
+  };
+
+  export const ru = <DateTimeFormat>{
+    abbreviatedMonthNames: ['янв.', 'февр.', 'март', 'апр.', 'май', 'июнь', 'июль', 'авг.', 'сент.', 'окт.', 'нояб.', 'дек.'],
+    dayNames: ['Воскпесенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Субота'],
+    monthNames: [
+      'январь',
+      'февраль',
+      'март',
+      'май',
+      'июнь',
+      'июль',
+      'август',
+      'Сентябрь',
+      'октябрь',
+      'ноябрь',
+      'декабрь'],
+    AMDesignator: '',
+    firstDayOfWeek: 0,
+    fullDateTimePattern: 'd mmmm yyyy \'г.\' H:mm:ss',
+    longDatePattern: 'd mmmm yyyy \'г.\'',
+    longTimePattern: 'H:MM:ss',
+    shortDatePattern: 'dd.mm.yyyy',
+    shortDayNames: ['В', 'П', 'В', 'С', 'Ч', 'П', 'С'],
+    shortTimePattern: 'H:MM',
+    timeSeparator: ':'
+  };
+}
+
 const regexJsonMilliseconds = /\.[0-9]+(Z|\+[0-9]{1,2}(:[0-9]{1,2})?)$/i;
 
 const dateFromJson = (json: string) => {
@@ -202,7 +323,174 @@ export interface DateTimeInit {
   milliseconds?: number;
 }
 
+const patterns = {
+  d: Symbol('d'),
+  dd: Symbol('dd'),
+  ddd: Symbol('ddd'),
+  dddd: Symbol('dddd'),
+  m: Symbol('m'),
+  mm: Symbol('mm'),
+  mmm: Symbol('mmm'),
+  mmmm: Symbol('mmmm'),
+  yy: Symbol('yy'),
+  yyyy: Symbol('yyyy'),
+  h: Symbol('h'),
+  hh: Symbol('hh'),
+  H: Symbol('H'),
+  HH: Symbol('HH'),
+  M: Symbol('M'),
+  MM: Symbol('MM'),
+  s: Symbol('s'),
+  ss: Symbol('ss'),
+  tt: Symbol('tt'),
+  TT: Symbol('TT'),
+};
+
+const patternKeys = (function () {
+  const x: [string, Symbol][] = [];
+  Object.keys(patterns).forEach(k => {
+    x.push([k, <Symbol>(<any>patterns)[k]]);
+  });
+  x.sort(([k1, _], [k2, __]) => k1.length === k2.length ? (k1 < k2 ? -1 : (k1 === k2 ? 0 : -1)) : k1.length < k2.length ? 1 : -1);
+  return x;
+}());
+
+type FormatToken = string|Symbol;
+
+function parseFormat(source: string, index: number, tokens: FormatToken[]): FormatToken[] {
+  if (index >= source.length) {
+    return tokens;
+  }
+  if ('\'' === source[index]) {
+    const closing = source.indexOf('\'', index + 1);
+    if (-1 === closing) {
+      throw new Error('unclosed quote');
+    }
+    tokens.push(source.substring(index + 1, closing));
+    return parseFormat(source, closing + 1, tokens);
+  }
+  // check formats
+  for (const [k, s] of patternKeys) {
+    if (index === source.indexOf(k, index)) {
+      tokens.push(s);
+      return parseFormat(source, index + k.length, tokens);
+    }
+  }
+  // plain text
+  const l = tokens.length;
+  if (l && 'string' === typeof tokens[l]) {
+    tokens[l] += source[index];
+  } else {
+    tokens.push(source[index]);
+  }
+  return parseFormat(source, index + 1, tokens);
+}
+
+const formatCache: { [fmt: string]: FormatToken[]|undefined } = {};
+
+const parseFormatCached = (source: string): FormatToken[] => {
+  let tokens = formatCache[source];
+  if (tokens) {
+    return tokens;
+  }
+  tokens = parseFormat(source, 0, []);
+  formatCache[source] = tokens;
+  return tokens;
+}
+
+const padZero: (source: string, n: number) => string = (function () {
+  if ((<any>String.prototype).padStart) {
+    const pad: (n: number, padString: string) => string = (<any>String.prototype).padStart;
+    return (source: string, n: number) => pad.call(source, n, '0');
+  }
+  return (source: string, n: number) => {
+    let result = source;
+    while (result.length < n) {
+      result = '0' + result;
+    }
+    return result;
+  };
+}());
+
+function stringify(source: DateTime, tokens: FormatToken[], format: DateTimeFormat) {
+  let result = '';
+  for (const token of tokens) {
+    if ('string' === typeof token) {
+      result += token;
+    } else if (patterns.d === token) {
+      result += String(source.day);
+    } else if (patterns.dd === token) {
+      result += padZero(String(source.day), 2);
+    } else if (patterns.ddd === token) {
+      result += format.shortDayNames[source.dayOfWeek];
+    } else if (patterns.dddd === token) {
+      result += format.dayNames[source.dayOfWeek];
+    } else if (patterns.m === token) {
+      result += String(source.month);
+    } else if (patterns.mm === token) {
+      result += padZero(String(source.month), 2);
+    } else if (patterns.mmm === token) {
+      result += format.abbreviatedMonthNames[source.month - 1];
+    } else if (patterns.mmmm === token) {
+      result += format.monthNames[source.month - 1];
+    } else if (patterns.yy === token) {
+      result += String(source.year % 100);
+    } else if (patterns.yyyy === token) {
+      result += String(source.year);
+    } else if (patterns.h === token) {
+      result += String(source.hours % 12);
+    } else if (patterns.hh === token) {
+      result += padZero(String(source.hours % 12), 2);
+    } else if (patterns.H === token) {
+      result += String(source.hours);
+    } else if (patterns.HH === token) {
+      result += padZero(String(source.hours), 2);
+    } else if (patterns.M === token) {
+      result += String(source.minutes);
+    } else if (patterns.MM === token) {
+      result += padZero(String(source.minutes), 2);
+    } else if (patterns.s === token) {
+      result += String(source.seconds);
+    } else if (patterns.ss === token) {
+      result += padZero(String(source.seconds), 2);
+    } else if (patterns.tt === token) {
+      result += source.hours > 11 ? 'pm': 'am';
+    } else if (patterns.TT === token) {
+      result += source.hours > 11 ? 'PM': 'AM';
+    } else {
+      throw new Error('invalid fotmat token');
+    }
+  }
+  return result;
+}
+
+const formatCustom = (source: DateTime, fmt: string, format: DateTimeFormat): string => {
+  const tokens = parseFormatCached(fmt);
+  return stringify(source, tokens, format);
+};
+
+const formatStandard = (source: DateTime, fmt: 'd'|'D'|'f'|'F'|'g'|'G', format: DateTimeFormat) => {
+  switch(fmt) {
+    case 'd':
+      return formatCustom(source, format.shortDatePattern, format);
+    case 'D':
+      return formatCustom(source, format.longDatePattern, format);
+    case 'f':
+    case 'F':
+      return formatCustom(source, format.fullDateTimePattern, format);
+    case 'g':
+      return formatCustom(source, format.shortDatePattern + ' ' + format.shortTimePattern, format);
+    case 'G':
+      return formatCustom(source, format.shortDatePattern + ' ' + format.longTimePattern, format);
+  }
+  throw new Error('should never happen');
+};
+
 export class DateTime implements Equatable<DateTime>, Comparable<DateTime> {
+
+  static defaultFormatProvider = Formats.hu;
+  static defaultFormat = 'g';
+
   /**
    * Returns amount of days in the specified month.
    * @param month Month.
@@ -216,7 +504,7 @@ export class DateTime implements Equatable<DateTime>, Comparable<DateTime> {
         return monthLengths[month - 1];
     }
     return (0 === year % 4 && (0 !== year % 100 || 0 === year % 400)) ? 29 : 28;
-}
+  }
 
   private readonly source: Date
   get isValid() { return !isNaN(this.source.getTime()); }
@@ -391,5 +679,30 @@ export class DateTime implements Equatable<DateTime>, Comparable<DateTime> {
     const result = new Date();
     result.setTime(this.source.getTime());
     return result;
+  }
+  private format(format: string, provider: DateTimeFormat): string {
+    if ('d' === format || 'D' === format || 'f' === format || 'F' === format || 'g' === format || 'G' === format) {
+      return formatStandard(this, format, provider);
+    }
+    return formatCustom(this, format, provider);
+  }
+  toString(): string;
+  toString(format: string): string;
+  toString(provider: DateTimeFormat): string;
+  toString(format: string, provider: DateTimeFormat): string;
+  toString(formatOrProvider?: string|DateTimeFormat, provider?: DateTimeFormat) {
+    if (!provider) {
+      if (!formatOrProvider) {
+        return this.format(DateTime.defaultFormat, DateTime.defaultFormatProvider);
+      } else if ('string' === typeof formatOrProvider) {
+        return this.format(formatOrProvider, DateTime.defaultFormatProvider);
+      } else {
+        return this.format(DateTime.defaultFormat, formatOrProvider);
+      }
+    }
+    if ('string' !== typeof formatOrProvider) {
+      throw new Error('invalid format argument');
+    }
+    return this.format(formatOrProvider, provider);
   }
 }
