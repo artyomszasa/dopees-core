@@ -12,6 +12,7 @@ interface DefaultPorts {
 */
 export declare class Uri {
     static defaultPorts: DefaultPorts;
+    private _queryParams;
     /** Gets or sets scheme of the Uri. */
     scheme?: string;
     /** Gets or sets hostname of the Uri. */

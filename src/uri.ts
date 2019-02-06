@@ -46,6 +46,7 @@ export class Uri {
     'http': 80,
     'https': 443
   };
+  private _queryParams: StringMap = {};
   /** Gets or sets scheme of the Uri. */
   scheme?: string;
   /** Gets or sets hostname of the Uri. */
@@ -58,7 +59,12 @@ export class Uri {
   fragment?: string;
   /** Gets or sets query component of the Uri as object. Allows accessing and
    * manipulating individual arguments within query component. */
-  queryParams: StringMap = {};
+  get queryParams() {
+     return this._queryParams;
+  }
+  set queryParams(value: StringMap) {
+    this._queryParams = value || {};
+  }
   /**
    * Creates {@link Uri} form an argument.
    *
@@ -135,7 +141,7 @@ export class Uri {
    * @type {String}
    */
   get query () {
-      const queryParams = this.queryParams || {};
+      const queryParams = this._queryParams || {};
       return Object.keys(queryParams)
           .map(key => {
             const val = queryParams[key];
@@ -144,8 +150,8 @@ export class Uri {
           .join('&');
   }
   set query (query) {
-      this.queryParams = {};
-      parseQuery(this.queryParams, query);
+      this._queryParams = {};
+      parseQuery(this._queryParams, query);
   }
   toString () {
       return this.href;
