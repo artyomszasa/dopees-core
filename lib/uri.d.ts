@@ -5,11 +5,11 @@ interface DefaultPorts {
     [key: string]: number | undefined;
 }
 /**
-* Simple and straightforward Uri wrapper.
-*
-* @class dope.Uri
-* @param {String} raw - string representation of the Uri.
-*/
+ * Simple and straightforward Uri wrapper.
+ *
+ * @class dope.Uri
+ * @param {String} raw - string representation of the Uri.
+ */
 export declare class Uri {
     static defaultPorts: DefaultPorts;
     private _queryParams;
@@ -23,8 +23,10 @@ export declare class Uri {
     port?: number;
     /** Gets or sets fragment of the Uri. */
     fragment?: string;
-    /** Gets or sets query component of the Uri as object. Allows accessing and
-     * manipulating individual arguments within query component. */
+    /**
+     * Gets or sets query component of the Uri as object. Allows accessing and
+     * manipulating individual arguments within query component.
+     */
     queryParams: StringMap;
     /**
      * Creates {@link Uri} form an argument.

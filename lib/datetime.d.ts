@@ -1,4 +1,4 @@
-import { Equatable, Comparable } from "./contract";
+import { Equatable, Comparable } from './contract';
 export interface DateTimeFormat {
     abbreviatedMonthNames: string[];
     dayNames: string[];
@@ -60,7 +60,7 @@ export declare class TimeSpan implements Equatable<TimeSpan>, Comparable<TimeSpa
     subDays(days: number): TimeSpan;
     sub(value: TimeSpan | number): TimeSpan;
     equalsTo(other: TimeSpan): boolean;
-    compareTo(other: TimeSpan): 1 | -1 | 0;
+    compareTo(other: TimeSpan): 1 | 0 | -1;
     toString(): string;
 }
 export interface DateTimeInit {
@@ -114,7 +114,7 @@ export declare class DateTime implements Equatable<DateTime>, Comparable<DateTim
      */
     constructor(init: DateTimeInit);
     equalsTo(other: DateTime): boolean;
-    compareTo(other: DateTime): 1 | -1 | 0;
+    compareTo(other: DateTime): 1 | 0 | -1;
     addMilliseconds(milliseconds: number): DateTime;
     addSeconds(seconds: number): DateTime;
     addMinutes(minutes: number): DateTime;

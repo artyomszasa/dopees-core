@@ -1,4 +1,4 @@
-import { Equatable, Comparable } from "./contract";
+import { Equatable, Comparable } from './contract';
 
 export interface DateTimeFormat {
   abbreviatedMonthNames: string[];
@@ -12,11 +12,11 @@ export interface DateTimeFormat {
   shortDatePattern: string;
   shortDayNames: string[];
   shortTimePattern: string;
-  timeSeparator: string
+  timeSeparator: string;
 }
 
 export namespace Formats {
-  export const hu = <DateTimeFormat>{
+  export const hu = <DateTimeFormat> {
     abbreviatedMonthNames: ['Jan', 'Feb', 'Már', 'Ápr', 'Máj', 'Jún', 'Júl', 'Aug', 'Szept', 'Okt', 'Nov', 'Dec'],
     dayNames: [ 'Vasárnap', 'Hétfő', 'Kedd', 'Szerda', 'Csütörtök', 'Péntek', 'Szombat'],
     monthNames: [
@@ -43,9 +43,9 @@ export namespace Formats {
     timeSeparator: ':'
   };
 
-  export const enGB = <DateTimeFormat>{
+  export const enGB = <DateTimeFormat> {
     abbreviatedMonthNames: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sept', 'Okt', 'Nov', 'Dec'],
-    dayNames: ['Sunday', 'Monday', 'Thuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+    dayNames: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
     monthNames: [
       'January',
       'February',
@@ -70,9 +70,9 @@ export namespace Formats {
     timeSeparator: ':'
   };
 
-  export const enUS = <DateTimeFormat>{
+  export const enUS = <DateTimeFormat> {
     abbreviatedMonthNames: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sept', 'Okt', 'Nov', 'Dec'],
-    dayNames: ['Sunday', 'Monday', 'Thuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+    dayNames: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
     monthNames: [
       'January',
       'February',
@@ -97,7 +97,8 @@ export namespace Formats {
     timeSeparator: ':'
   };
 
-  export const ru = <DateTimeFormat>{
+  export const ru = <DateTimeFormat> {
+    // tslint:disable-next-line:max-line-length
     abbreviatedMonthNames: ['янв.', 'февр.', 'март', 'апр.', 'май', 'июнь', 'июль', 'авг.', 'сент.', 'окт.', 'нояб.', 'дек.'],
     dayNames: ['Воскпесенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Субота'],
     monthNames: [
@@ -130,13 +131,13 @@ const regexJsonMilliseconds = /\.[0-9]+(Z|\+[0-9]{1,2}(:[0-9]{1,2})?)$/i;
 const dateFromJson = (json: string) => {
   const fixed = json.replace(regexJsonMilliseconds, '$1');
   return new Date(fixed);
-}
+};
 
 const dateFromTime = (milliseconds: number) => {
   const result = new Date();
   result.setTime(milliseconds);
   return result;
-}
+};
 
 const regexTimeSpan = /^(-)?(([0-9]+)\.)?([0-9]{1,2}):([0-9]{1,2})(:([0-9]{1,2})(\.([0-9]{1,3}))?)?$/;
 
@@ -156,7 +157,7 @@ const monthLengths = [
 ];
 
 const pow10 = (n: number) => {
-  switch(n) {
+  switch (n) {
     case 0:
       return 1;
     case 1:
@@ -172,7 +173,7 @@ const pow10 = (n: number) => {
       }
       return res;
   }
-}
+};
 
 const pad3 = (n: number) => {
   if (n < 10) {
@@ -182,7 +183,7 @@ const pad3 = (n: number) => {
     return `0${n}`;
   }
   return String(n);
-}
+};
 
 const parseTimeStamp = (input: string) => {
   const m = regexTimeSpan.exec(input);
@@ -198,14 +199,14 @@ const parseTimeStamp = (input: string) => {
     milliseconds = -milliseconds;
   }
   return milliseconds;
-}
+};
 
 export class TimeSpan implements Equatable<TimeSpan>, Comparable<TimeSpan> {
   static readonly millisecondsInSecond = 1000;
   static readonly millisecondsInMinute = 60000;
   static readonly millisecondsInHour = 3600000;
   static readonly millisecondsInDay = 86400000;
-  private readonly value: number
+  private readonly value: number;
   get milliseconds() { return this.value % TimeSpan.millisecondsInSecond; }
   get seconds() { return Math.floor(this.totalSeconds) % 60; }
   get minutes() { return Math.floor(this.totalMinutes) % 60; }
@@ -350,11 +351,12 @@ const patterns = {
   TT: Symbol('TT'),
 };
 
-const patternKeys = (function () {
-  const x: [string, Symbol][] = [];
-  Object.keys(patterns).forEach(k => {
-    x.push([k, <Symbol>(<any>patterns)[k]]);
+const patternKeys = (function() {
+  const x: Array<[string, Symbol]> = [];
+  Object.keys(patterns).forEach((k) => {
+    x.push([k, <Symbol> (<any> patterns)[k]]);
   });
+  // tslint:disable-next-line:max-line-length
   x.sort(([k1, _], [k2, __]) => k1.length === k2.length ? (k1 < k2 ? -1 : (k1 === k2 ? 0 : -1)) : k1.length < k2.length ? 1 : -1);
   return x;
 }());
@@ -400,11 +402,11 @@ const parseFormatCached = (source: string): FormatToken[] => {
   tokens = parseFormat(source, 0, []);
   formatCache[source] = tokens;
   return tokens;
-}
+};
 
-const padZero: (source: string, n: number) => string = (function () {
-  if ((<any>String.prototype).padStart) {
-    const pad: (n: number, padString: string) => string = (<any>String.prototype).padStart;
+const padZero: (source: string, n: number) => string = (function() {
+  if ((<any> String.prototype).padStart) {
+    const pad: (n: number, padString: string) => string = (<any> String.prototype).padStart;
     return (source: string, n: number) => pad.call(source, n, '0');
   }
   return (source: string, n: number) => {
@@ -458,9 +460,9 @@ function stringify(source: DateTime, tokens: FormatToken[], format: DateTimeForm
     } else if (patterns.ss === token) {
       result += padZero(String(source.seconds), 2);
     } else if (patterns.tt === token) {
-      result += source.hours > 11 ? 'pm': 'am';
+      result += source.hours > 11 ? 'pm' : 'am';
     } else if (patterns.TT === token) {
-      result += source.hours > 11 ? 'PM': 'AM';
+      result += source.hours > 11 ? 'PM' : 'AM';
     } else {
       throw new Error('invalid fotmat token');
     }
@@ -474,7 +476,7 @@ const formatCustom = (source: DateTime, fmt: string, format: DateTimeFormat): st
 };
 
 const formatStandard = (source: DateTime, fmt: 'd'|'D'|'f'|'F'|'g'|'G', format: DateTimeFormat) => {
-  switch(fmt) {
+  switch (fmt) {
     case 'd':
       return formatCustom(source, format.shortDatePattern, format);
     case 'D':
@@ -510,7 +512,7 @@ export class DateTime implements Equatable<DateTime>, Comparable<DateTime> {
     return (0 === year % 4 && (0 !== year % 100 || 0 === year % 400)) ? 29 : 28;
   }
 
-  private readonly source: Date
+  private readonly source: Date;
   get isValid() { return !isNaN(this.source.getTime()); }
   get year() { return this.source.getFullYear(); }
   get month() { return this.source.getMonth() + 1; }
@@ -548,7 +550,7 @@ export class DateTime implements Equatable<DateTime>, Comparable<DateTime> {
    */
   constructor(init: DateTimeInit);
 
-  constructor (source?: Date|string|number|DateTimeInit) {
+  constructor(source?: Date|string|number|DateTimeInit) {
     if (undefined === source || null === source) {
       this.source = new Date();
     } else if ('string' === typeof source) {
@@ -559,8 +561,15 @@ export class DateTime implements Equatable<DateTime>, Comparable<DateTime> {
       this.source = source;
     } else {
       // assume init
-      const init = <DateTimeInit>source;
-      this.source = new Date(init.year || new Date().getFullYear(), init.month ? init.month - 1 : 0, init.day || 1, init.hours || 0, init.minutes || 0, init.seconds || 0, init.milliseconds || 0);
+      const init = <DateTimeInit> source;
+      this.source = new Date(
+        init.year || new Date().getFullYear(),
+        init.month ? init.month - 1 : 0,
+        init.day || 1,
+        init.hours || 0,
+        init.minutes || 0,
+        init.seconds || 0,
+        init.milliseconds || 0);
     }
   }
 
@@ -606,7 +615,7 @@ export class DateTime implements Equatable<DateTime>, Comparable<DateTime> {
       const full = Math.floor(months) + (this.month - 1);
       const fm = full % 12;
       const fy = Math.floor(full / 12);
-      let res = new DateTime({
+      const res = new DateTime({
         year: this.year + fy,
         month: fm + 1,
         day: Math.min(DateTime.getMonthLength(fm + 1, this.year + fy), this.day),
