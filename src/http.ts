@@ -397,6 +397,10 @@ export class TextContent extends MessageContent {
     return blobToReadableStream(new Blob([this.textContent], { type: this.mediaType }));
   }
 
+  blob() {
+    return Promise.resolve(new Blob([this.textContent], { type: this.mediaType }));
+  }
+
   text() {
     return Promise.resolve(this.textContent);
   }
