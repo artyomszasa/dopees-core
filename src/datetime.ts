@@ -1,22 +1,24 @@
 import { Equatable, Comparable } from './contract';
 
 export interface DateTimeFormat {
-  abbreviatedMonthNames: string[];
-  dayNames: string[];
-  monthNames: string[];
-  AMDesignator: string;
-  firstDayOfWeek: number;
-  fullDateTimePattern: string;
-  longDatePattern: string;
-  longTimePattern: string;
-  shortDatePattern: string;
-  shortDayNames: string[];
-  shortTimePattern: string;
-  timeSeparator: string;
+  readonly locale: string;
+  readonly abbreviatedMonthNames: string[];
+  readonly dayNames: string[];
+  readonly monthNames: string[];
+  readonly AMDesignator: string;
+  readonly firstDayOfWeek: number;
+  readonly fullDateTimePattern: string;
+  readonly longDatePattern: string;
+  readonly longTimePattern: string;
+  readonly shortDatePattern: string;
+  readonly shortDayNames: string[];
+  readonly shortTimePattern: string;
+  readonly timeSeparator: string;
 }
 
 export namespace Formats {
-  export const hu = <DateTimeFormat> {
+  export const hu: DateTimeFormat = {
+    locale: 'hu-HU',
     abbreviatedMonthNames: ['Jan', 'Feb', 'Már', 'Ápr', 'Máj', 'Jún', 'Júl', 'Aug', 'Szept', 'Okt', 'Nov', 'Dec'],
     dayNames: [ 'Vasárnap', 'Hétfő', 'Kedd', 'Szerda', 'Csütörtök', 'Péntek', 'Szombat'],
     monthNames: [
@@ -43,7 +45,8 @@ export namespace Formats {
     timeSeparator: ':'
   };
 
-  export const enGB = <DateTimeFormat> {
+  export const enGB: DateTimeFormat = {
+    locale: 'en-GB',
     abbreviatedMonthNames: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sept', 'Okt', 'Nov', 'Dec'],
     dayNames: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
     monthNames: [
@@ -70,7 +73,8 @@ export namespace Formats {
     timeSeparator: ':'
   };
 
-  export const enUS = <DateTimeFormat> {
+  export const enUS: DateTimeFormat = {
+    locale: 'en-US',
     abbreviatedMonthNames: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sept', 'Okt', 'Nov', 'Dec'],
     dayNames: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
     monthNames: [
@@ -97,7 +101,8 @@ export namespace Formats {
     timeSeparator: ':'
   };
 
-  export const ru = <DateTimeFormat> {
+  export const ru: DateTimeFormat = {
+    locale: 'ru-RU',
     // tslint:disable-next-line:max-line-length
     abbreviatedMonthNames: ['янв.', 'февр.', 'март', 'апр.', 'май', 'июнь', 'июль', 'авг.', 'сент.', 'окт.', 'нояб.', 'дек.'],
     dayNames: ['Воскпесенье', 'Понедельник', 'Вторник', 'Среда', 'Четверг', 'Пятница', 'Субота'],
