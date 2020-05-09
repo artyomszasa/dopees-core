@@ -11,7 +11,7 @@ export interface Abortion {
 export declare function linkAbortion(cancellation?: Cancellation): Abortion;
 export declare const addHeader: (headers: Record<string, string> | Headers | string[][] | null | undefined, name: string, value: string) => HeadersInit;
 export declare abstract class MessageContent {
-    abstract readonly mediaType: string;
+    abstract get mediaType(): string;
     abstract createReadableStream(): ReadableStream<Uint8Array>;
     blob(): Promise<Blob>;
     text(): Promise<string>;
@@ -19,11 +19,11 @@ export declare abstract class MessageContent {
 }
 export declare class FormUrlEncodedContent extends MessageContent implements Map<string, string> {
     private readonly data;
-    readonly mediaType: string;
-    readonly size: number;
+    get mediaType(): string;
+    get size(): number;
     constructor(source: HTMLFormElement | FormData | Iterable<readonly [string, string]> | Record<string, string>);
     [Symbol.iterator](): IterableIterator<[string, string]>;
-    readonly [Symbol.toStringTag]: string;
+    get [Symbol.toStringTag](): string;
     clear(): void;
     delete(key: string): boolean;
     entries(): IterableIterator<[string, string]>;
@@ -38,11 +38,11 @@ export declare class FormUrlEncodedContent extends MessageContent implements Map
 export declare class MultipartFormContent extends MessageContent implements Map<string, FormDataEntryValue> {
     private readonly data;
     private readonly boundary;
-    readonly mediaType: string;
-    readonly size: number;
+    get mediaType(): string;
+    get size(): number;
     constructor(source: HTMLFormElement | FormData | Iterable<readonly [string, FormDataEntryValue]> | Record<string, FormDataEntryValue>);
     [Symbol.iterator](): IterableIterator<[string, FormDataEntryValue]>;
-    readonly [Symbol.toStringTag]: string;
+    get [Symbol.toStringTag](): string;
     clear(): void;
     delete(key: string): boolean;
     entries(): IterableIterator<[string, FormDataEntryValue]>;
@@ -57,19 +57,20 @@ export declare class MultipartFormContent extends MessageContent implements Map<
 export declare class TextContent extends MessageContent {
     private readonly __mediaType;
     protected __textContent: string;
-    readonly mediaType: string;
-    readonly textContent: string;
+    get mediaType(): string;
+    get textContent(): string;
     constructor(text: string, mediaType?: string);
-    readonly [Symbol.toStringTag]: string;
+    get [Symbol.toStringTag](): string;
     createReadableStream(): ReadableStream<Uint8Array>;
+    blob(): Promise<Blob>;
     text(): Promise<string>;
 }
 export declare class JsonContent extends TextContent {
     protected __object: any;
-    readonly object: any;
-    readonly textContent: string;
+    get object(): any;
+    get textContent(): string;
     constructor(obj: any, mediaType?: string);
-    readonly [Symbol.toStringTag]: string;
+    get [Symbol.toStringTag](): string;
     json(): Promise<any>;
 }
 export interface RequestMessage {
@@ -107,7 +108,7 @@ export declare class DelegatingHandler extends MessageHandler {
     send(message: RequestMessage, cancellation?: Cancellation): Promise<ResponseMessage>;
 }
 export declare class HttpClientHandler extends MessageHandler {
-    readonly fetch: (uri: string, init: RequestInit & AnyProp) => Promise<Response>;
+    get fetch(): (uri: string, init: RequestInit & AnyProp) => Promise<Response>;
     preprocessRequestMessage(message: RequestMessage): Promise<RequestMessage>;
     readResponseMessage(response: Response): Promise<ResponseMessage>;
     send(message: RequestMessage, cancellation?: Cancellation): Promise<ResponseMessage>;

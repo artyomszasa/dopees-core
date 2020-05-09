@@ -3,6 +3,6 @@ export declare class Mutex implements Disposable {
     private readonly queue;
     private active;
     dispose(): void;
-    lock(): Promise<{}>;
+    lock(): Promise<unknown>;
     release(): void;
 }

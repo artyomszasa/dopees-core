@@ -1,17 +1,18 @@
 import { Equatable, Comparable } from './contract';
 export interface DateTimeFormat {
-    abbreviatedMonthNames: string[];
-    dayNames: string[];
-    monthNames: string[];
-    AMDesignator: string;
-    firstDayOfWeek: number;
-    fullDateTimePattern: string;
-    longDatePattern: string;
-    longTimePattern: string;
-    shortDatePattern: string;
-    shortDayNames: string[];
-    shortTimePattern: string;
-    timeSeparator: string;
+    readonly locale: string;
+    readonly abbreviatedMonthNames: string[];
+    readonly dayNames: string[];
+    readonly monthNames: string[];
+    readonly AMDesignator: string;
+    readonly firstDayOfWeek: number;
+    readonly fullDateTimePattern: string;
+    readonly longDatePattern: string;
+    readonly longTimePattern: string;
+    readonly shortDatePattern: string;
+    readonly shortDayNames: string[];
+    readonly shortTimePattern: string;
+    readonly timeSeparator: string;
 }
 export declare namespace Formats {
     const hu: DateTimeFormat;
@@ -25,16 +26,16 @@ export declare class TimeSpan implements Equatable<TimeSpan>, Comparable<TimeSpa
     static readonly millisecondsInHour = 3600000;
     static readonly millisecondsInDay = 86400000;
     private readonly value;
-    readonly milliseconds: number;
-    readonly seconds: number;
-    readonly minutes: number;
-    readonly hours: number;
-    readonly days: number;
-    readonly totalMilliseconds: number;
-    readonly totalSeconds: number;
-    readonly totalMinutes: number;
-    readonly totalHours: number;
-    readonly totalDays: number;
+    get milliseconds(): number;
+    get seconds(): number;
+    get minutes(): number;
+    get hours(): number;
+    get days(): number;
+    get totalMilliseconds(): number;
+    get totalSeconds(): number;
+    get totalMinutes(): number;
+    get totalHours(): number;
+    get totalDays(): number;
     /**
      * Creates timespan for the specified amount of milliseconds.
      * @param milliseconds Amount of milliseconds.
@@ -82,15 +83,15 @@ export declare class DateTime implements Equatable<DateTime>, Comparable<DateTim
      */
     static getMonthLength(month: number, year: number): number;
     private readonly source;
-    readonly isValid: boolean;
-    readonly year: number;
-    readonly month: number;
-    readonly day: number;
-    readonly dayOfWeek: number;
-    readonly hours: number;
-    readonly minutes: number;
-    readonly seconds: number;
-    readonly milliseconds: number;
+    get isValid(): boolean;
+    get year(): number;
+    get month(): number;
+    get day(): number;
+    get dayOfWeek(): number;
+    get hours(): number;
+    get minutes(): number;
+    get seconds(): number;
+    get milliseconds(): number;
     /** Creates new instance of datetime for actual date and time. */
     constructor();
     /**

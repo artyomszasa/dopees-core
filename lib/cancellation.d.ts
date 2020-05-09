@@ -15,7 +15,7 @@ export declare class CancellationSource extends Cancellation {
     static link(cancellation1: Cancellation, cancellation2: Cancellation): Cancellation;
     readonly callbacks: (() => void)[];
     cancelled: boolean;
-    readonly cancellation: Cancellation;
+    get cancellation(): Cancellation;
     cancel(): void;
     subscribe(callback: () => void): {
         invoke: () => void;

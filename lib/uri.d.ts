@@ -27,7 +27,8 @@ export declare class Uri {
      * Gets or sets query component of the Uri as object. Allows accessing and
      * manipulating individual arguments within query component.
      */
-    queryParams: StringMap;
+    get queryParams(): StringMap;
+    set queryParams(value: StringMap);
     /**
      * Creates {@link Uri} form an argument.
      *
@@ -41,33 +42,36 @@ export declare class Uri {
      * @type {Boolean}
      * @readonly
      */
-    readonly isRelative: boolean;
+    get isRelative(): boolean;
     /**
      * Is _true_ if the wrapper Uri is absolute.
      *
      * @type {Boolean}
      * @readonly
      */
-    readonly isAbsolute: boolean;
+    get isAbsolute(): boolean;
     /**
      * Gets or sets authority of the Uri (i.e. hostname and port if non standard).
      *
      * @type {String}
      */
-    authority: string;
+    get authority(): string;
+    set authority(authority: string);
     /**
      * Gets or sets the wrapped Uri.
      *
      * @type {String}
      */
-    href: string;
+    get href(): string;
+    set href(href: string);
     /**
      * Gets or sets query component of the Uri. To access or manipulate individual query arguments use
      * {@link dope.Uri#queryParams}.
      *
      * @type {String}
      */
-    query: string;
+    get query(): string;
+    set query(query: string);
     toString(): string;
 }
 export {};

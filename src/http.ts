@@ -117,9 +117,9 @@ function* iterateRecord<K extends keyof any, V>(source: Record<K, V>) {
   }
 }
 
-function iterateHTMLFormElement(source: HTMLFormElement): () => IterableIterator<readonly [string, FormDataEntryValue]>;
+function iterateHTMLFormElement(source: HTMLFormElement): () => Generator<readonly [string, FormDataEntryValue]>;
 // tslint:disable-next-line:max-line-length
-function iterateHTMLFormElement(source: HTMLFormElement, throwOnFile: true): () => IterableIterator<readonly [string, string]>;
+function iterateHTMLFormElement(source: HTMLFormElement, throwOnFile: true): () => Generator<readonly [string, string]>;
 
 function iterateHTMLFormElement(source: HTMLFormElement, throwOnFile?: true) {
   if (throwOnFile) {
