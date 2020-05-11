@@ -40,14 +40,23 @@ export function linkAbortion(cancellation?: Cancellation): Abortion {
   return { signal, subscription };
 }
 
-export const addHeader = (headers: HeadersInit|null|undefined, name: string, value: string) => {
+export const addHeader = (headers: HeadersInit|null|undefined, name: string, value: string, override?: boolean) => {
   if (!headers) {
     return new Headers([[name, value]]);
   }
   if (headers instanceof Headers) {
-    headers.append(name, value);
+    if (override) {
+      headers.set(name, value);
+    } else {
+      headers.append(name, value);
+    }
   } else if (Array.isArray(headers)) {
-    headers.push([name, value]);
+    const index = override ? headers.findIndex((kv) => kv[0] === name) : -1;
+    if (-1 !== index) {
+      headers[index] = [name, value];
+    } else {
+      headers.push([name, value]);
+    }
   } else {
     headers[name] = value;
   }
