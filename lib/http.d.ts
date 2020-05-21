@@ -9,7 +9,7 @@ export interface Abortion {
     };
 }
 export declare function linkAbortion(cancellation?: Cancellation): Abortion;
-export declare const addHeader: (headers: Record<string, string> | Headers | string[][] | null | undefined, name: string, value: string, override?: boolean | undefined) => HeadersInit;
+export declare const addHeader: (headers: HeadersInit | null | undefined, name: string, value: string, override?: boolean | undefined) => HeadersInit;
 export declare abstract class MessageContent {
     abstract get mediaType(): string;
     abstract createReadableStream(): ReadableStream<Uint8Array>;

@@ -68,7 +68,7 @@ export namespace Formats {
     longDatePattern: 'dd mmmm yyyy',
     longTimePattern: 'HH:MM:ss',
     shortDatePattern: 'dd/mm/yyyy',
-    shortDayNames: ['S', 'M', 'T', 'W', 'T', 'F', 'S'],
+    shortDayNames: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
     shortTimePattern: 'HH:MM',
     timeSeparator: ':'
   };
@@ -96,7 +96,7 @@ export namespace Formats {
     longDatePattern: 'dddd, mmmm d, yyyy',
     longTimePattern: 'h:MM:ss tt',
     shortDatePattern: 'm/d/yyyy',
-    shortDayNames: ['S', 'M', 'T', 'W', 'T', 'F', 'S'],
+    shortDayNames: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
     shortTimePattern: 'h:MM tt',
     timeSeparator: ':'
   };
